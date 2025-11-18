@@ -30,7 +30,7 @@ make_prize_genre_pie <- function(x = prizes) {
       ypos  = cumsum(prop) - 0.4 * prop
     )
   ggplot(df, aes(x = 1, y = prop, fill = prize_genre)) +
-    geom_col(width = 1, color = "white") +
+    geom_col(width = 1) +
     coord_polar(theta = "y") +
     geom_text(aes(x = 1.3, y = ypos, label = label), size = 3) +
     theme_void() +
@@ -72,25 +72,50 @@ make_gender_prize_line <- function(x = prizes) {
     ) +
     theme_minimal()
 }
-
+make_genre_prize_line <- function(x = prizes) {
+  df_genre_year <- x %>%
+    filter(!is.na(prize_genre)) %>%
+    count(prize_year, prize_genre) %>%
+    group_by(prize_year) %>%
+    mutate(prop = n / sum(n)) %>%
+    ungroup()
+  if (!is.numeric(df_genre_year$prize_year)) {
+    df_genre_year$prize_year <- as.numeric(as.character(df_genre_year$prize_year))
+  }
+  ggplot(df_genre_year, aes(x = prize_year, y = prop, color = prize_genre)) +
+    geom_line(size = 1.2) +
+    geom_point(size = 2) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+    labs(
+      title = "Prize Genre over Time",
+      x = "Prize Year",
+      y = "Proportion of Awardees",
+      color = "Genre"
+    ) +
+    theme_minimal()
+}
 prize_genre_pie  <- make_prize_genre_pie()
 gender_pie        <- make_gender_pie()
 gender_prize_line <- make_gender_prize_line()
-
+genre_prize_line <-make_genre_prize_line()
 search_data <- prizes %>%
   select(book_title, prize_alias, prize_genre, prize_year, name, gender, ethnicity)
 
 # ---- UI ----
 ui <- dashboardPage(
+  skin = "green",
   dashboardHeader(title = "Prize Dashboard"),
+  
   dashboardSidebar(
     sidebarMenu(
       menuItem("Project Intro", tabName = "intro", icon = icon("info")),
       menuItem("Charts", tabName = "charts", icon = icon("chart-pie")),
       menuItem("Search Data", tabName = "search", icon = icon("search"))
     )
+    
   ),
   dashboardBody(
+    div(style = "height:50px;"), 
     tabItems(
       tabItem(tabName = "intro",
               fluidRow(
@@ -115,6 +140,9 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(width = 12, plotlyOutput("plot_gender_year"))
+              ),
+              fluidRow(
+                box(width = 12, plotlyOutput("plot_genre_year"))
               )
       ),
       tabItem(tabName = "search",
@@ -138,12 +166,13 @@ server <- function(input, output, session) {
   output$plot_prize_genre <- renderPlot({ prize_genre_pie })
   output$plot_gender      <- renderPlot({ gender_pie })
   output$plot_gender_year <- renderPlotly({ ggplotly(gender_prize_line)})
+  output$plot_genre_year <- renderPlotly({ ggplotly(genre_prize_line)})
   output$search_table <- renderDT({
     filtered <- if (input$keyword == "") {
       head(search_data, 10)
     } else {
       search_data %>%
-        filter(across(everything(), ~ grepl(input$keyword, .x, ignore.case = TRUE)))
+        filter(if_any(everything(), ~ grepl(input$keyword, as.character(.), ignore.case = TRUE)))
     }
     datatable(filtered, options = list(pageLength = 10, scrollX = TRUE))
   })
