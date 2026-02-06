@@ -1,37 +1,89 @@
-## Prize DashboardDescription: An interactive Shiny dashboard for exploring diversity and representation in literary prize data.
+# Prize Dashboard
 
-Project OverviewThis project builds a Shiny dashboard to visualize demographic and prize-related characteristics of authors included in the TidyTuesday Literary Prizes dataset. The goal is to support transparent, data-driven discussions about diversity, equity, and representation in literary prize cultures. The dashboard provides charts, summaries, and a searchable data table.
+An interactive Shiny dashboard for exploring diversity and representation in literary prize data. This project visualizes demographic patterns, prize genres, and temporal trends using the TidyTuesday Literary Prizes dataset.
 
-Dataset DescriptionThe dataset contains publicly available information about authors, including gender, sexuality, UK residency, ethnicity, geography, and educational background. These variables allow researchers to study cultural, social, and political factors that shape literary prestige. Because demographic information can be sensitive, the dataset is intended for examining broad patterns rather than making definitive claims about individuals.
+## Project Overview
 
-Data Sourcehttps://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-10-28/readme.md
+This dashboard provides an interface for examining demographic and prize‑related characteristics of authors. It supports transparent, data‑driven discussions about diversity, equity, and representation in literary prize cultures.
 
-Dashboard Features
+The app includes summary statistics, interactive charts, and a keyword‑searchable data table.
 
-Project Introduction
+## Dataset Description
+
+The dataset contains publicly available information about authors, including:
+
+Gender
+
+Sexuality
+
+UK residency
+
+Ethnicity
+
+Geography
+
+Educational background (institutions and fields of study)
+
+These variables help researchers study cultural, social, and political factors that shape literary prestige. Because demographic information can be sensitive, the dataset is intended for analyzing broad patterns rather than making definitive claims about individuals.
+
+Data Source:https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-10-28/readme.md
+
+## Dashboard Features
+
+1. Project Introduction
 
 Displays project description and data source
 
 Allows users to select any variable and view summary statistics
 
-Charts
+2. Charts
 
-Prize Genre Distribution: pie chart showing proportions of prize genres
+Prize Genre Distribution — pie chart of prize genres
 
-Gender Distribution: pie chart showing gender representation
+Gender Distribution — pie chart of gender representation
 
-Gender Representation Over Time: line chart showing gender proportions by year
+Gender Representation Over Time — interactive line chart
 
-Genre Representation Over Time: line chart showing genre proportions by year
+Genre Representation Over Time — interactive line chart
 
-Search Data
+3. Search Data
 
-Searchable table including book title, prize alias, prize genre, prize year, author name, gender, and ethnicity
+A searchable table that includes:
 
-Keyword search across all fields
+Book title
 
-Code StructureThe app includes UI components (header, sidebar, body), server logic for rendering text, summaries, plots, and search results, and helper functions for generating the charts.
+Prize alias
 
-Running the AppPlace prizes.rds in your working directory and run shinyApp(ui = ui, server = server).
+Prize genre
 
-AuthorShuxin QianBoston UniversityMaster of Science in Statistical Practice
+Prize year
+
+Author name
+
+Gender
+
+Ethnicity
+
+Keyword search is applied across all fields.
+
+Code Structure
+
+The app includes:
+
+UI components (header, sidebar, body)
+
+Server logic for rendering text, summaries, plots, and search results
+
+Helper functions for generating all charts
+
+Running the App
+
+Place prizes.rds in your working directory and run:
+
+shinyApp(ui = ui, server = server)
+
+Author
+
+Shuxin Qian
+Boston University
+Master of Science in Statistical Practice
