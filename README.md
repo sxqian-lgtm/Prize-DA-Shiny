@@ -76,14 +76,16 @@ Server logic for rendering text, summaries, plots, and search results
 
 Helper functions for generating all charts
 
-Running the App
+## Running the App
 
 Place prizes.rds in your working directory and run:
 
 shinyApp(ui = ui, server = server)
 
-Author
+## Author
 
 Shuxin Qian
+
 Boston University
+
 Master of Science in Statistical Practice
